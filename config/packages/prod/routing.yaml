@@ -1,0 +1,6 @@
+framework:
+    router:
+        strict_requirements: null
+
+        _liip_imagine:
+            resource: "@LiipImagineBundle/Resources/config/routing.yaml"

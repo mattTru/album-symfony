@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'une image{% endblock %}
+
+{% block body %}
+    <div class="container-fluid tm-container-content tm-mt-60">
+        <div class="row mb-4">
+            <h3 class="tm-text-primary">Ajouter une image</h3>
+            {% for message in app.flashes('success') %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            <!-- form -->
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

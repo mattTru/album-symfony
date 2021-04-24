@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{ asset('/img/hero.jpg') }}">
+    <form class="d-flex tm-search-form">
+        <input class="form-control tm-search-input" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success tm-search-btn" type="submit">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+</div>
+
+<div class="container-fluid tm-container-content tm-mt-60">
+    <div class="row mb-4">
+        <a class="tm-text-primary" href="{{ path('add_image') }}">Ajouter une image</a>
+    </div>
+    <div class="row mb-4">
+        <h2 class="col-6 tm-text-primary">
+            Derniers albums publics
+        </h2>
+    </div>
+    <div class="row tm-mb-90 tm-gallery">
+        {% if albums is not empty %}
+            {% for album in albums %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                <figure class="effect-ming tm-video-item">
+                    {% if album.images is not empty %}
+                        <img src="{{ vich_uploader_asset(album.images[0], 'imageFile') | imagine_filter('image_album') }}" alt="Image" class="img-fluid">
+                    {% else %}
+                        <img src="{{ asset('/img/default-album.png') }}" alt="Image" class="img-fluid">
+                    {% endif %}
+                    <figcaption class="d-flex align-items-center justify-content-center">
+                        <h2>{{ album.titre }}</h2>
+                        <a href="{{ path('album_detail', {'slug': album.slug }) }}">View more</a>
+                    </figcaption>
+                </figure>
+                {% if album.images is not empty %}
+                <div class="d-flex justify-content-between tm-text-gray">
+                    <span class="tm-text-gray-light">{{ album.images[0].getCreatedAt() | date("d/m/Y") }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="navigation">
+                {{ knp_pagination_render(albums) }}
+            </div>
+
+        {% else %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                <p>Aucun album trouvé</p>
+            </div>
+        {% endif %}
+    </div> <!-- container-fluid, tm-container-content -->
+
+    <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
+        <div class="container-fluid tm-container-small">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12 px-5 mb-5">
+                    <h3 class="tm-text-primary mb-4 tm-footer-title">About Catalog-Z</h3>
+                    <p>Catalog-Z is free <a rel="sponsored" href="https://v5.getbootstrap.com/">Bootstrap 5</a> Alpha 2 HTML Template for video and photo websites. You can freely use this TemplateMo layout for a front-end integration with any kind of CMS website.</p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
+                    Copyright 2020 Catalog-Z Company. All rights reserved.
+                </div>
+                <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
+                    Designed by <a href="https://templatemo.com" class="tm-text-gray" rel="sponsored" target="_parent">TemplateMo</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
